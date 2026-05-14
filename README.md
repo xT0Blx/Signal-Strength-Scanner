@@ -1,0 +1,1 @@
+DICT Assigned project personal
