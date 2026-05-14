@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "oHbhyVE26hYkB_w-z48DP"
+uri = "file://artifacts/wifi-diagnostics/assets/images/icon.png"
+type = "image"
+title = "generated_image"
