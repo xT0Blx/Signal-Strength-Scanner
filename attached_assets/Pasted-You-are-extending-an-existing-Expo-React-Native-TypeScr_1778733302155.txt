@@ -1,0 +1,98 @@
+You are extending an existing Expo React Native (TypeScript) Android application called:
+
+Wi-Fi Signal Diagnostics Tool
+
+The app currently performs real Wi-Fi scans and displays nearby access points with SSID, BSSID, RSSI, frequency, and signal strength visualization.
+
+NEW FEATURE REQUIREMENT:
+Implement a structured Wi-Fi scan history system for diagnostic comparison over time.
+
+Core Objective:
+Enable technicians to review previous Wi-Fi scan results to analyze signal variations across time in the same physical environment.
+
+Functional Requirements:
+
+Scan History Storage
+After every Wi-Fi scan, save the full scan result locally on the device.
+Use persistent local storage (e.g., AsyncStorage or equivalent Expo-compatible storage).
+Each saved scan must include:
+Timestamp (ISO format)
+List of detected networks
+
+Each network entry must include:
+
+SSID
+BSSID
+RSSI (dBm)
+Frequency (MHz if available)
+Security type (if available)
+History Limit (IMPORTANT)
+Store ONLY the last 15 scans.
+Automatically remove the oldest scan when limit is exceeded.
+Prevent unlimited storage growth.
+History Data Structure
+Design a clean JSON structure similar to:
+
+ScanSession:
+
+id
+timestamp
+networks[]
+UI Enhancement
+
+Add a "History" view or tab:
+
+A. Current Scan View
+
+Existing real-time Wi-Fi scan screen
+Scan button
+Live results list
+
+B. History View
+
+List of previous scan sessions
+Each entry shows:
+Timestamp
+Number of networks detected
+Average signal strength (optional but preferred)
+
+When a history item is tapped:
+
+Display full scan details
+Show same network card UI used in live scan
+Signal Visualization (Maintain Existing Logic)
+Keep 5-level RSSI indicator:
+Excellent (green)
+Good
+Fair (yellow)
+Weak (orange)
+Poor (red)
+Data Consistency Requirement
+Ensure identical formatting between live scan results and history scan results.
+Do NOT duplicate logic; reuse components where possible.
+Offline Requirement
+App must remain fully offline.
+No cloud sync, no backend, no external APIs.
+Technical Constraints
+Expo React Native (TypeScript only)
+Must use Expo-compatible storage solution
+Must support Android builds via EAS
+No mock or simulated scan data allowed
+All history must originate from real Wi-Fi scans only
+Code Quality Requirements
+Modular architecture (separate components for:
+Scan screen
+History screen
+Network card UI
+Storage service)
+Clean separation of UI and data logic
+Reusable signal strength utility function
+
+Expected Output:
+A fully working Expo project with:
+
+Real Wi-Fi scanning
+Persistent scan history (last 15 scans only)
+Two-view navigation system (Current / History)
+Clean, technician-friendly UI
+Stable offline operation

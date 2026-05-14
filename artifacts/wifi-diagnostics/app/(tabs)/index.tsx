@@ -10,7 +10,7 @@ import {
   Platform,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { useColors } from "@/hooks/useColors";
 import { useWifiScan, WifiNetwork } from "@/hooks/useWifiScan";
@@ -30,38 +30,32 @@ export default function ScannerScreen() {
 
   const formatScanTime = (date: Date | null) => {
     if (!date) return null;
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    return date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
   };
 
   const statusText = () => {
     switch (status) {
-      case "requesting":
-        return "Requesting permissions...";
-      case "scanning":
-        return "Scanning networks...";
-      case "done":
-        return `${networks.length} network${networks.length !== 1 ? "s" : ""} found`;
-      case "error":
-        return "Scan failed";
-      case "unavailable":
-        return "Not available";
-      default:
-        return "Ready to scan";
+      case "requesting": return "Requesting permissions...";
+      case "scanning": return "Scanning networks...";
+      case "done": return `${networks.length} network${networks.length !== 1 ? "s" : ""} found`;
+      case "error": return "Scan failed";
+      case "unavailable": return "Not available";
+      default: return "Ready to scan";
     }
   };
 
   const statusColor = () => {
     switch (status) {
-      case "done":
-        return colors.excellent;
+      case "done": return colors.excellent;
       case "error":
-      case "unavailable":
-        return colors.poor;
+      case "unavailable": return colors.poor;
       case "scanning":
-      case "requesting":
-        return colors.primary;
-      default:
-        return colors.mutedForeground;
+      case "requesting": return colors.primary;
+      default: return colors.mutedForeground;
     }
   };
 
@@ -91,12 +85,7 @@ export default function ScannerScreen() {
           </Text>
         </View>
         <View style={styles.headerMeta}>
-          <View
-            style={[
-              styles.statusDot,
-              { backgroundColor: statusColor() },
-            ]}
-          />
+          <View style={[styles.statusDot, { backgroundColor: statusColor() }]} />
           <Text style={[styles.statusText, { color: statusColor() }]}>
             {statusText()}
           </Text>
@@ -136,15 +125,7 @@ export default function ScannerScreen() {
         showsVerticalScrollIndicator={false}
       />
 
-      <View
-        style={[
-          styles.fabContainer,
-          {
-            bottom: bottomPad + 24,
-            ...(Platform.OS === "web" ? { bottom: bottomPad + 24 } : {}),
-          },
-        ]}
-      >
+      <View style={[styles.fabContainer, { bottom: bottomPad + 70 }]}>
         <TouchableOpacity
           style={[
             styles.scanButton,
@@ -241,9 +222,7 @@ function EmptyState({
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-  },
+  screen: { flex: 1 },
   header: {
     paddingHorizontal: 20,
     paddingBottom: 14,
@@ -278,12 +257,8 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: "Inter_400Regular",
   },
-  list: {
-    flex: 1,
-  },
-  listContent: {
-    paddingTop: 12,
-  },
+  list: { flex: 1 },
+  listContent: { paddingTop: 12 },
   emptyState: {
     flex: 1,
     alignItems: "center",

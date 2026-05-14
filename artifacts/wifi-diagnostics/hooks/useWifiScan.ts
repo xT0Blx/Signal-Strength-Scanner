@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { Platform, PermissionsAndroid } from "react-native";
+import { saveSession } from "@/services/scanHistory";
 
 export interface WifiNetwork {
   id: string;
@@ -28,9 +29,10 @@ export function rssiToPercent(rssi: number): number {
 }
 
 export function frequencyToBand(freq: number): string {
+  if (freq >= 6000) return "6 GHz";
   if (freq >= 5000) return "5 GHz";
   if (freq >= 2400) return "2.4 GHz";
-  if (freq >= 6000) return "6 GHz";
+  if (freq === 0) return "Unknown";
   return `${freq} MHz`;
 }
 
@@ -98,7 +100,7 @@ export function useWifiScan() {
       } catch {
         setStatus("unavailable");
         setErrorMessage(
-          "Wi-Fi scanning requires a native build. Scan the QR code with Expo Go to test on device, or build with EAS to enable real scanning."
+          "Wi-Fi scanning requires a native build. Build with EAS to enable real scanning."
         );
         return;
       }
@@ -116,8 +118,12 @@ export function useWifiScan() {
 
       const sorted = parsed.sort((a, b) => b.level - a.level);
       setNetworks(sorted);
-      setLastScanTime(new Date());
+
+      const now = new Date();
+      setLastScanTime(now);
       setStatus("done");
+
+      await saveSession(sorted);
     } catch (err: any) {
       if (
         err?.message?.includes("throttled") ||
